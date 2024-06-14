@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package socialproto;
+
+option go_package = "github.com/Jiali-Xing/socialproto;socialproto";
+
+message Post {
+  string post_id = 1;
+  string content = 2;
+  string author_id = 3;
+  string timestamp = 4;
+}
