@@ -6,7 +6,7 @@ option go_package = "github.com/Jiali-Xing/socialproto;socialproto";
 
 message Post {
   string post_id = 1;
-  string content = 2;
-  string author_id = 3;
-  string timestamp = 4;
+  int64 timestamp = 4;
+  string text = 2;
+  string creator_id = 3;
 }
