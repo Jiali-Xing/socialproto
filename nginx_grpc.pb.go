@@ -22,9 +22,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type NginxServiceClient interface {
-	ForwardComposePost(ctx context.Context, in *ComposePostRequest, opts ...grpc.CallOption) (*ComposePostResponse, error)
-	ForwardUserTimeline(ctx context.Context, in *ReadUserTimelineRequest, opts ...grpc.CallOption) (*ReadUserTimelineResponse, error)
-	ForwardHomeTimeline(ctx context.Context, in *ReadHomeTimelineRequest, opts ...grpc.CallOption) (*ReadHomeTimelineResponse, error)
+	ComposePost(ctx context.Context, in *ComposePostRequest, opts ...grpc.CallOption) (*ComposePostResponse, error)
+	ReadUserTimeline(ctx context.Context, in *ReadUserTimelineRequest, opts ...grpc.CallOption) (*ReadUserTimelineResponse, error)
+	ReadHomeTimeline(ctx context.Context, in *ReadHomeTimelineRequest, opts ...grpc.CallOption) (*ReadHomeTimelineResponse, error)
 }
 
 type nginxServiceClient struct {
@@ -35,27 +35,27 @@ func NewNginxServiceClient(cc grpc.ClientConnInterface) NginxServiceClient {
 	return &nginxServiceClient{cc}
 }
 
-func (c *nginxServiceClient) ForwardComposePost(ctx context.Context, in *ComposePostRequest, opts ...grpc.CallOption) (*ComposePostResponse, error) {
+func (c *nginxServiceClient) ComposePost(ctx context.Context, in *ComposePostRequest, opts ...grpc.CallOption) (*ComposePostResponse, error) {
 	out := new(ComposePostResponse)
-	err := c.cc.Invoke(ctx, "/socialproto.NginxService/ForwardComposePost", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/socialproto.NginxService/ComposePost", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *nginxServiceClient) ForwardUserTimeline(ctx context.Context, in *ReadUserTimelineRequest, opts ...grpc.CallOption) (*ReadUserTimelineResponse, error) {
+func (c *nginxServiceClient) ReadUserTimeline(ctx context.Context, in *ReadUserTimelineRequest, opts ...grpc.CallOption) (*ReadUserTimelineResponse, error) {
 	out := new(ReadUserTimelineResponse)
-	err := c.cc.Invoke(ctx, "/socialproto.NginxService/ForwardUserTimeline", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/socialproto.NginxService/ReadUserTimeline", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *nginxServiceClient) ForwardHomeTimeline(ctx context.Context, in *ReadHomeTimelineRequest, opts ...grpc.CallOption) (*ReadHomeTimelineResponse, error) {
+func (c *nginxServiceClient) ReadHomeTimeline(ctx context.Context, in *ReadHomeTimelineRequest, opts ...grpc.CallOption) (*ReadHomeTimelineResponse, error) {
 	out := new(ReadHomeTimelineResponse)
-	err := c.cc.Invoke(ctx, "/socialproto.NginxService/ForwardHomeTimeline", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/socialproto.NginxService/ReadHomeTimeline", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,9 +66,9 @@ func (c *nginxServiceClient) ForwardHomeTimeline(ctx context.Context, in *ReadHo
 // All implementations must embed UnimplementedNginxServiceServer
 // for forward compatibility
 type NginxServiceServer interface {
-	ForwardComposePost(context.Context, *ComposePostRequest) (*ComposePostResponse, error)
-	ForwardUserTimeline(context.Context, *ReadUserTimelineRequest) (*ReadUserTimelineResponse, error)
-	ForwardHomeTimeline(context.Context, *ReadHomeTimelineRequest) (*ReadHomeTimelineResponse, error)
+	ComposePost(context.Context, *ComposePostRequest) (*ComposePostResponse, error)
+	ReadUserTimeline(context.Context, *ReadUserTimelineRequest) (*ReadUserTimelineResponse, error)
+	ReadHomeTimeline(context.Context, *ReadHomeTimelineRequest) (*ReadHomeTimelineResponse, error)
 	mustEmbedUnimplementedNginxServiceServer()
 }
 
@@ -76,14 +76,14 @@ type NginxServiceServer interface {
 type UnimplementedNginxServiceServer struct {
 }
 
-func (UnimplementedNginxServiceServer) ForwardComposePost(context.Context, *ComposePostRequest) (*ComposePostResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ForwardComposePost not implemented")
+func (UnimplementedNginxServiceServer) ComposePost(context.Context, *ComposePostRequest) (*ComposePostResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ComposePost not implemented")
 }
-func (UnimplementedNginxServiceServer) ForwardUserTimeline(context.Context, *ReadUserTimelineRequest) (*ReadUserTimelineResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ForwardUserTimeline not implemented")
+func (UnimplementedNginxServiceServer) ReadUserTimeline(context.Context, *ReadUserTimelineRequest) (*ReadUserTimelineResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadUserTimeline not implemented")
 }
-func (UnimplementedNginxServiceServer) ForwardHomeTimeline(context.Context, *ReadHomeTimelineRequest) (*ReadHomeTimelineResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ForwardHomeTimeline not implemented")
+func (UnimplementedNginxServiceServer) ReadHomeTimeline(context.Context, *ReadHomeTimelineRequest) (*ReadHomeTimelineResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReadHomeTimeline not implemented")
 }
 func (UnimplementedNginxServiceServer) mustEmbedUnimplementedNginxServiceServer() {}
 
@@ -98,56 +98,56 @@ func RegisterNginxServiceServer(s grpc.ServiceRegistrar, srv NginxServiceServer)
 	s.RegisterService(&NginxService_ServiceDesc, srv)
 }
 
-func _NginxService_ForwardComposePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NginxService_ComposePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ComposePostRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NginxServiceServer).ForwardComposePost(ctx, in)
+		return srv.(NginxServiceServer).ComposePost(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/socialproto.NginxService/ForwardComposePost",
+		FullMethod: "/socialproto.NginxService/ComposePost",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NginxServiceServer).ForwardComposePost(ctx, req.(*ComposePostRequest))
+		return srv.(NginxServiceServer).ComposePost(ctx, req.(*ComposePostRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NginxService_ForwardUserTimeline_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NginxService_ReadUserTimeline_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ReadUserTimelineRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NginxServiceServer).ForwardUserTimeline(ctx, in)
+		return srv.(NginxServiceServer).ReadUserTimeline(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/socialproto.NginxService/ForwardUserTimeline",
+		FullMethod: "/socialproto.NginxService/ReadUserTimeline",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NginxServiceServer).ForwardUserTimeline(ctx, req.(*ReadUserTimelineRequest))
+		return srv.(NginxServiceServer).ReadUserTimeline(ctx, req.(*ReadUserTimelineRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NginxService_ForwardHomeTimeline_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NginxService_ReadHomeTimeline_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ReadHomeTimelineRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NginxServiceServer).ForwardHomeTimeline(ctx, in)
+		return srv.(NginxServiceServer).ReadHomeTimeline(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/socialproto.NginxService/ForwardHomeTimeline",
+		FullMethod: "/socialproto.NginxService/ReadHomeTimeline",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NginxServiceServer).ForwardHomeTimeline(ctx, req.(*ReadHomeTimelineRequest))
+		return srv.(NginxServiceServer).ReadHomeTimeline(ctx, req.(*ReadHomeTimelineRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -160,16 +160,16 @@ var NginxService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*NginxServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ForwardComposePost",
-			Handler:    _NginxService_ForwardComposePost_Handler,
+			MethodName: "ComposePost",
+			Handler:    _NginxService_ComposePost_Handler,
 		},
 		{
-			MethodName: "ForwardUserTimeline",
-			Handler:    _NginxService_ForwardUserTimeline_Handler,
+			MethodName: "ReadUserTimeline",
+			Handler:    _NginxService_ReadUserTimeline_Handler,
 		},
 		{
-			MethodName: "ForwardHomeTimeline",
-			Handler:    _NginxService_ForwardHomeTimeline_Handler,
+			MethodName: "ReadHomeTimeline",
+			Handler:    _NginxService_ReadHomeTimeline_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
