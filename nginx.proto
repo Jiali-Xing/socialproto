@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package socialproto;
+
+option go_package = "github.com/Jiali-Xing/socialproto;socialproto";
+
+import "compose_post.proto";
+import "home_timeline.proto";
+import "user_timeline.proto";
+
+service NginxService {
+  rpc ForwardComposePost(ComposePostRequest) returns (ComposePostResponse);
+  rpc ForwardUserTimeline(ReadUserTimelineRequest) returns (ReadUserTimelineResponse);
+  rpc ForwardHomeTimeline(ReadHomeTimelineRequest) returns (ReadHomeTimelineResponse);
+}
